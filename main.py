@@ -2,35 +2,35 @@
 
 import webapp2
 import jinja2
+import os
 
 JINJA_ENVIRONMENT = jinja2.Environment(
-  loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+  loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), 'templates')),
   extensions=['jinja2.ext.autoescape'],
   autoescape=True)
 
+PAGES = [
+  ("", "/"),
+  ("Second Page", "page2.html"),
+  ("Third Page", "page3.html")
+]
 
 
 class MainPage(webapp2.RequestHandler):
-  def get(self):
+  def get(self, *args, **kwargs):
+    template = self.request.path[1:]
+    if not template:
+      template = "index.html"
+      var = {"pages": PAGES, "pageIndex":0}
+    else:
+      var = {"pages": PAGES, "pageIndex": [x[1] for x in PAGES].index(template)}
+
     self.response.headers['Content-Type'] = 'text/html'
-
-    Hotestlisting = getListing() or errorListing()
-
-    listingQuery = Listing.query(ancestor=ndb.Key('Listing',LISTINGS_KEY)).order(-Listing.timeAdded)
-    listings = listingQuery.fetch()
-
-    templateVars = {
-      'Hotestlisting':Hotestlisting,
-      'listings':listings
-    }
-
-    template = JINJA_ENVIRONMENT.get_template('index.html')
-    self.response.write(template.render(templateVars))
-
-    
+    jTemplate = JINJA_ENVIRONMENT.get_template(template)
+    self.response.write(jTemplate.render(var))
 
 
 app = webapp2.WSGIApplication([
-    webapp2.Route('/*', MainPage),
+    webapp2.Route(r'/<:.*>', handler=MainPage),
 ], debug=True)
 

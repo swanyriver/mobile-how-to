@@ -35,29 +35,17 @@
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
-                    <a href="index.html">
+                    <a href="/">
                         How-To
                     </a>
                 </li>
-                
-                <!-- <li>
-                    <a href="page1.html">Curl Calls</a>
-                </li>
-                <li>
-                    <a href="page2.html">Success and Failure</a>
-                </li>
-                <li>
-                    <a href="page3.html">Parsing JSON</a>
-                </li>
-                <li>
-                    <a href="page4.html">Putting it all Together</a>
-                </li>
-                <li>
-                    <a href="page5.html">Taking it Further</a>
-                </li>
-                <li>
-                    <a href="page6.html">Make it Your Own</a>
-                </li> -->
+
+                {% for title, page in pages %}
+                    <li>
+                        <a href="{{ page }}">{{ title }}</a>
+                    </li>
+                {% endfor %}
+
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -66,31 +54,30 @@
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="jumbotron">
-                    <h1>Basic Curl Calls to api.github.com</h1>
+                    <h1>{% block jumbo_title %}{% endblock %}</h1>
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
                         <!-- MY CONTENT HERE -->
-                        <p>
-                        The <a href="https://developer.github.com/v3/repos/#create">Github documentation</a> for creating a new repository gives us the API call form: <code>POST /user/repos</code> and then defines a structure for the JSON string to be attached in the header.  Many of the fields have default boolean values and the only strictly necessary field is <code>name</code>
-                        </p><p>
-                        An example JSON string for creating a new repo would be
-                         <br> <code>“{“name”:”my new repository”,”description”:”this is my new github repo”}”</code>
-                        </p><br><p>
-                        We will be using <a href="http://linux.die.net/man/1/curl">curl</a> to make our API calls to the Github server. To attach this to the header of our HTTPS call we will use the <code>-d/--data</code> flag.  Unlike calls that just request data from the Github server, calls on this API that create/modify/delete repositiories will require user credentials.  We attach this to the call with the <code>-u/--user</code> flag, wich can be just the username if you would like the server to prompt for the password.  Putting together this JSON string, the required user credentials (with your own credentials substituted for USERNAME:PASSWORD),  and the provided URL a simple curl call to create a new repository would be as follows:
-                        </p><p>
-                        <code>curl -u "USERNAME:PASSWORD" https://api.github.com/user/repos -d '{"name":"my new repository","description":"this is my new github repo"}'</code>
+                        {% block body %}
+                        {% endblock %}
 
-                        </p><p>
-                        This will suffice to create a new repository on the Github servers and will output the returned JSON string with information about the newly created repository.  But this is hardly a time saver to type out API URLs and JSON strings by hand every time.  In the next section we will cover automating this process with a small Bash script and retrieving information like the URL for the newly created repository from the returned JSON
-                        </p>
-                        
-                        <nav>
-                            <ul class="pager">
-                              <li><a href="index.html">Prev</a></li>
-                              <li><a href="page2.html">Next</a></li>
-                            </ul>
-                        </nav>
+                        {% if pageIndex == 0 %}
+                            <nav>
+                                <ul class="pager">
+                                    <li><a href="{{ pages[1][1] }}">Let's Get Started</a></li>
+                                </ul>
+                            </nav>
+                        {% else %}
+                            <nav>
+                                <ul class="pager">
+                                    <li><a href="{{ pages[pageIndex - 1][1] }}">Prev</a></li>
+                                    {% if pageIndex < (pages|length) - 1 %}
+                                        <li><a href="{{ pages[pageIndex + 1][1] }}">Next</a></li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% endif %}
 
                     </div>
                 </div>
@@ -111,3 +98,4 @@
 </body>
 
 </html>
+{% endautoescape %}
