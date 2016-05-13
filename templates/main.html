@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="en">
+{% autoescape true %}
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}title{% endblock %}</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="index.html">
+                        How-To
+                    </a>
+                </li>
+                
+                <!-- <li>
+                    <a href="page1.html">Curl Calls</a>
+                </li>
+                <li>
+                    <a href="page2.html">Success and Failure</a>
+                </li>
+                <li>
+                    <a href="page3.html">Parsing JSON</a>
+                </li>
+                <li>
+                    <a href="page4.html">Putting it all Together</a>
+                </li>
+                <li>
+                    <a href="page5.html">Taking it Further</a>
+                </li>
+                <li>
+                    <a href="page6.html">Make it Your Own</a>
+                </li> -->
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="jumbotron">
+                    <h1>Basic Curl Calls to api.github.com</h1>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <!-- MY CONTENT HERE -->
+                        <p>
+                        The <a href="https://developer.github.com/v3/repos/#create">Github documentation</a> for creating a new repository gives us the API call form: <code>POST /user/repos</code> and then defines a structure for the JSON string to be attached in the header.  Many of the fields have default boolean values and the only strictly necessary field is <code>name</code>
+                        </p><p>
+                        An example JSON string for creating a new repo would be
+                         <br> <code>“{“name”:”my new repository”,”description”:”this is my new github repo”}”</code>
+                        </p><br><p>
+                        We will be using <a href="http://linux.die.net/man/1/curl">curl</a> to make our API calls to the Github server. To attach this to the header of our HTTPS call we will use the <code>-d/--data</code> flag.  Unlike calls that just request data from the Github server, calls on this API that create/modify/delete repositiories will require user credentials.  We attach this to the call with the <code>-u/--user</code> flag, wich can be just the username if you would like the server to prompt for the password.  Putting together this JSON string, the required user credentials (with your own credentials substituted for USERNAME:PASSWORD),  and the provided URL a simple curl call to create a new repository would be as follows:
+                        </p><p>
+                        <code>curl -u "USERNAME:PASSWORD" https://api.github.com/user/repos -d '{"name":"my new repository","description":"this is my new github repo"}'</code>
+
+                        </p><p>
+                        This will suffice to create a new repository on the Github servers and will output the returned JSON string with information about the newly created repository.  But this is hardly a time saver to type out API URLs and JSON strings by hand every time.  In the next section we will cover automating this process with a small Bash script and retrieving information like the URL for the newly created repository from the returned JSON
+                        </p>
+                        
+                        <nav>
+                            <ul class="pager">
+                              <li><a href="index.html">Prev</a></li>
+                              <li><a href="page2.html">Next</a></li>
+                            </ul>
+                        </nav>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
