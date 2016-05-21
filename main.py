@@ -11,7 +11,8 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 PAGES = [
   ("", "/"),
-  ("Second Page", "page2.html"),
+  ("Primitive Data", "simple.html"),
+  ("Passing Objects", "objects.html"),
   ("Third Page", "page3.html")
 ]
 

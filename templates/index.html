@@ -1,7 +1,45 @@
 {% extends "main.html" %}
-{% block title %} How To {% endblock %}
-{% block jumbo_title %} How To ... {% endblock %}
+{% block jumbo_title %}How To Pass Data and Objects Between Activities in Android Apps{% endblock %}
 
 {% block body %}
-This is the index page
+
+    <h3>What will be covered in this tutorial</h3>
+    This tutorial will cover passing both simple data and objects, including user defined classes, between activities
+    in Android.  The common cases for this is when selecting an item from a list and launching an activity to display
+    or edit information about that item in a new activity.  A reference to that object (a url for retrieving it from the
+    internet) or the relevant features of that object must be passed to the new activity.  In the case that the new
+    activity was launched for the user to make edits to that object then the user entered information must be passed
+    back to the activity that launched the editing activity. This process is more akin to passing data between webpages
+    through POST or GET key value strings than it is to the typical methodology in client side programming of passing
+    data and objects through parameters and return values.
+
+    <p>
+    For examples in this tutorial I will be using a project of my own that provided an Android app interface to
+    my web app that supported creating, viewing, and editing of playlists of YouTube video snippets with user defined
+    start and end times as well as additional meta data. The <a href="https://github.com/swanyriver/MOBILE-assingment-4">
+    source code</a> is available on Github and throughout this
+    tutorial I will use snippets of this code to demonstrate these concepts.
+
+
+    <h3>Prerequisite knowledge</h3>
+    This tutorial covers material for which it assumed the users is already familiar with
+    <ul>
+    <li>The Android Activity Lifecycle</li>
+    <li>Creating an App with Multiple Activities</li>
+    <li>Starting a new Activity in Android</li>
+    </ul>
+    These topics and more are covered here at <a href="https://developer.android.com/guide/components/activities.html">
+    developer.android.com </a>
+
+    <h3>Why I created this tutorial</h3>
+    <p>
+    I created this tutorial because on <a href="http://stackoverflow.com/search?q=%5Bandroid%5D+between+activity"> stack overflow</a>
+    one of the most often subject of questions asked about Android programming is that of passing data between activities.
+        There is a very brief intro to the topic in the the <a
+            href="https://developer.android.com/training/basics/firstapp/starting-activity.html">Android
+        documentation</a> but it demonstrates a trivial use case of sharing one primitive variable.  Passing more complicated
+    structured data or objects between activates has many potential pitfalls and better design in this area can make
+    further development easier, where as hasty design in this area can become a big pain point on larger projects.
+    </p>
+
 {% endblock %}
