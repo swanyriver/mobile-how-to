@@ -13,7 +13,8 @@ PAGES = [
   ("", "/"),
   ("Primitive Data", "simple.html"),
   ("Passing Objects", "objects.html"),
-  ("Third Page", "page3.html")
+  ("Use Global Reference", "global.html"),
+  ("Avoid Using Activities", "avoid.html")
 ]
 
 

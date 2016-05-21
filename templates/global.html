@@ -1,0 +1,35 @@
+{% extends "main.html" %}
+{% block jumbo_title %}Creating Globally Accessible References{% endblock %}
+
+{% block body %}
+    <p>
+    Now we have tackled the problem of passing complex objects between activities,  But there is one more potential problem
+    you might encounter when passing information between activities and that is when attempting to pass a very large amount of data
+    such as an image or a very large array.  There is a <a href="https://developer.android.com/reference/android/os/TransactionTooLargeException.html">
+    hard limit</a> placed on the size of the Bundle that can be passed between activities.  Even if your data is under the limit you may
+    notice a very slow transition between activities if passing large arrays (Thousands of values) due to the process of serializing the array to string.
+
+    <p>
+    I will demonstrate two possible solutions to this problem, as sometimes you just have a lot of data to work with.
+    </p>
+
+    <p>
+    The first solution is to use global references using the <a href="https://developer.android.com/reference/android/app/Application.html">
+        Application</a> class to persist information between activities.  This has the obvious drawbacks that come with using global variables
+    But can have memory and speed performance benefits if you are working with large objects or arrays across many activities.
+    </p>
+
+    <p>
+    In order to use this method you create a class that extends the Activity class and in the android manifest file
+    point your application to use this class by defining the <code>android:name</code> within the <code>&lt;application&gt;</code> tag.
+    Then within this Application class you can either create public member fields or setter and getter for any data you would like to persist between activities.
+    In addition to passing large data between activities by maintaining references to the data within the Application class, this
+    method can be used for persisting other context information across the application session.
+
+    <p>Featured below is a very simple example of using this technique to launch an activity to perform some operation
+    on an image without copying or serializing that image, instead creating a globally accessible reference.</p>
+
+    <script src="https://gist.github.com/swanyriver/880b8f318bb26be60d40104149c03f2d.js"></script>
+
+
+{% endblock %}
