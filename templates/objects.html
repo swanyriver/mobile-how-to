@@ -1,7 +1,76 @@
 {% extends "main.html" %}
-{% block title %} page 3 {% endblock %}
-{% block jumbo_title %} page 3 {% endblock %}
+{% block jumbo_title %} Passing Objects Between Activities {% endblock %}
 
 {% block body %}
-This is the page 3
+
+    <p>
+Passing primitive types between activities is trivial enough but what about passing custom defined objects between
+    activities.  Such as in the example below where the user moves from viewing a snippet to editing that snippet.
+    A new activity is launched with the snippets information loaded into edit fields.  It is necessary to pass all of
+    the information that comprises this snippet entity to the new activity and then using a similar method back to the
+    activity that called it in an intent to be parsed in the onResult() method. </p>
+
+    <img style="margin-bottom: 10px; width: 100%" src="/img/sendObject.png">
+
+    <p>
+    The naive approach is to add all fields of the object being passed to the next activity with a key for each one.
+    This is the technique used in the code samples below.  The fragment class that managed the playlist snippets defined a method for retrieving a Bundle
+    containing all of the fields of one snippet in separate key entries.  The edit activity then retrieves those values by the key
+    strings and populates the EditText views.
+
+    <script src="https://gist.github.com/swanyriver/31473805121bfc980a255bf880140b8a.js"></script>
+    <script src="https://gist.github.com/swanyriver/d06837e3e4df9688eeb9430119b4d28b.js"></script>
+    <script src="https://gist.github.com/swanyriver/e78f6caac88ae685a252aa7fbe390ddc.js"></script>
+
+        <p>
+    The pitfalls of such an approach appear when development continues.  The fields of the Snippet class have now been
+    hardcoded in two different places outside of the class.  If the fields change or more are added the developers will need
+    to carefully revisit each of these manual serializing and de-serializing functions.  This is even more of a problem if
+    the same object is passed between multiple activities.
+
+    <p>
+    A better approach is for the class to define its own method for serialization and de-serialization, maintaining its encapsulation
+    and preventing errors or laborious changes in future development.  One approach is for a class to define a method that returns a Bundle
+    that contains all of the necessary fields with which to instantiate that object using a constructor that takes a Bundle as a parameter.
+    There are also two interfaces in Android/Java that we can use to assist in passing and recreating an object between activities.
+
+    The first is <a href="https://developer.android.com/reference/java/io/Serializable.html">Serializable</a>.  This interface is incredibly
+    convenient for this use case as there is no need to define the serializing and de-serializing methods yourself and there will be no need
+    to update any such methods when making changes to the class' structure.
+
+     <p class="bg-info"> <em>
+    I have claimed that Serializable is advantageous for continuous development of a class,  this is the case in this use case of passing objects between activities but
+         caution must be used if using Serializable to persist objects to file, if the class structure changes then previously serialized objects will not be compatible.
+    </em> </p>
+
+    <p>Simply adding <code> implements Serializable</code> to the class' signature will allow the class to be serialized using
+        the ObjectOutPutStream and ObjectInputStream classes as seen below.
+
+    <script src="https://gist.github.com/swanyriver/882ce7a1ad34699a5c484146494519ae.js"></script>
+
+    <p>
+    This might look like a lot of work creating exception handling and instantiating so many Stream objects for each
+    object you want to pass between activities.  Fortunately there are convenience methods that handle this process provided by the
+    Bundle and Intent classes for putting and getting serializable directly.
+
+    <script src="https://gist.github.com/swanyriver/35bf1a80f12b151960c34a223cafadca.js"></script>
+
+        <p>
+    An alternative to the serializable class is the Android <a href="https://developer.android.com/reference/android/os/Parcelable.html">Parcelable</a> Interface.
+    There are <code>putParcelable()</code> and <code>getParcelable()</code> for the Intent and Bundle classes similar to Serializable objects but unlike
+    the Serializable interface the developer of the Parcelable class must implement and maintain the abstract methods for serializing and de-serializing the object.
+    The reason for the extra effort is, as is usually the case, improvements in <a href="http://www.developerphil.com/parcelable-vs-serializable/">
+        speed and memory performance </a> because the Serializable interface depends on reflection to automatically serialize your objects.
+
+    <p>
+    A good compromise might be to begin with using the Serializable interface and then switch to Parcelalbe when either
+    you are confident that you will not be making further changes to the structure of that class, or you are noticing a significant delay when
+    switching activities.
+    </p>
+
+
+    <p>below is the code for passing and relieving a snippet object updated using the Serializable interface. A branch of the original project with these changes can be seen <a href="https://github.com/swanyriver/MOBILE-assingment-4/tree/howto">here on Github</a>
+    </p>
+    <script src="https://gist.github.com/swanyriver/530fa521b726afdecfeca3f905cb4d47.js"></script>
+
 {% endblock %}
