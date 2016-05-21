@@ -3,4 +3,47 @@
 
 {% block body %}
 
+    <p>
+    In the last section I covered passing large amounts of data using the Application class to create a global reference.
+    But experienced programmers can immediately spot the potential problems that can arise when using global references.
+    One solution when working with large data that is difficult to pass between activities is to avoid using another activity if possible.
+    I will cover two possible solutions here that will allow you to change the UI elements temporarily without leaving your current activity
+    and therefore maintaining access to the data you are trying to display or manipulate.
+
+    <p>
+    The first option is using the <a href="https://developer.android.com/reference/android/widget/PopupWindow.html">PopUpWindow class</a>
+    to temporarily display a new layout with new ui elements, partially or fully obscuring the UI of the current activity.
+    Android provides adapter classes for easily displaying pop up dialogs with short messages and one InputText, but is possible
+    to use the PopUpWindow class and a defined layout xml to create a pop up window with as many UI elements as needed.
+    </p>
+
+    <p>
+    I used this solution in an app that was recording test data and displaying graphic representation and textual representations
+    in new activities after the test had completed.  When the duration of the test was increased the app crashed when attempting
+    to serialize the large arrays to pass between activities.  The solution was to create a simple layout with a TextView within a
+    ScrollLayout and display this array within this pop up window.  This not only prevented the app from crashing from the
+    <a href="https://developer.android.com/reference/android/os/TransactionTooLargeException.html">
+        TransactionTooLargeException</a> but also greatly improved the speed of viewing the test results.  Below is the layout and pop up launching code.
+
+    </p>
+    <script src="https://gist.github.com/swanyriver/1a1245097a39772637225d5751d38cf5.js"></script>
+
+    <p>
+    Another solution is to use <a href="https://developer.android.com/guide/components/fragments.html">Fragments</a>
+    to replace a section of the activity's UI without changing activities,  Despite the name you can even use a layout
+    that is composed of only one fragment at a time.  Fragments share the same lifecycle as the activity but are useful
+    when switching between related actions, such as viewing and editing and entity.
+    </p>
+
+    <p>
+    You can change which fragment is currently visible using the <a href="https://developer.android.com/reference/android/app/FragmentTransaction.html">FragmentTransaction API</a>
+    .  In order to share data between the fragment and the activity you must declare public methods of the Activity and Fragment class.
+    The activity can then be retrieved from the fragment using the <code>getActivity()</code> method and the fragments can be retrieved
+    from the activity by using <code>getFragmentManager().findFragmentById(R.id.FRAGMENT_ID)</code>.
+    In the previous example of two activities that displayed and edited the same YouTube video snippet, instead of serializing
+    the object between activities, The object would be maintained by the activity class and the fragments would get and modify the
+    snippet objects through public methods defined by the activity class. Switching between viewing and editing would be done
+    through fragment transactions instead of starting a new activity.
+    </p>
+
 {% endblock %}
