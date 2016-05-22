@@ -11,8 +11,8 @@
     and therefore maintaining access to the data you are trying to display or manipulate.
 
     <p>
-    The first option is using the <a href="https://developer.android.com/reference/android/widget/PopupWindow.html">PopUpWindow class</a>
-    to temporarily display a new layout with new ui elements, partially or fully obscuring the UI of the current activity.
+    The first option is using the <a href="https://developer.android.com/reference/android/widget/PopupWindow.html">PopUpWindow</a> class
+    to temporarily display a new layout with new UI elements, partially or fully obscuring the UI of the current activity.
     Android provides adapter classes for easily displaying pop up dialogs with short messages and one InputText, but is possible
     to use the PopUpWindow class and a defined layout xml to create a pop up window with as many UI elements as needed.
     </p>
@@ -20,7 +20,9 @@
     <p>
     I used this solution in an app that was recording test data and displaying graphic representation and textual representations
     in new activities after the test had completed.  When the duration of the test was increased the app crashed when attempting
-    to serialize the large arrays to pass between activities.  The solution was to create a simple layout with a TextView within a
+    to serialize the large arrays of recorded data.
+        The data was simply too large to be passed between activities using a Bundle.
+        The solution was to create a simple layout with a TextView within a
     ScrollLayout and display this array within this pop up window.  This not only prevented the app from crashing from the
     <a href="https://developer.android.com/reference/android/os/TransactionTooLargeException.html">
         TransactionTooLargeException</a> but also greatly improved the speed of viewing the test results.  Below is the layout and pop up launching code.

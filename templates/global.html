@@ -20,8 +20,9 @@
     </p>
 
     <p>
-    In order to use this method you create a class that extends the Activity class and in the android manifest file
+    In order to use this method you create a class that extends the Applications class and in the android manifest file
     point your application to use this class by defining the <code>android:name</code> within the <code>&lt;application&gt;</code> tag.
+        This Application instance wil then be accessible from any activity of your app by using the <code>Activity.getApplication()</code> method
     Then within this Application class you can either create public member fields or setter and getter for any data you would like to persist between activities.
     In addition to passing large data between activities by maintaining references to the data within the Application class, this
     method can be used for persisting other context information across the application session.

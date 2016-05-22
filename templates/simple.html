@@ -3,21 +3,23 @@
 
 {% block body %}
 
+    <p>
     The simplest case is passing just a few primitive types such as ints or Strings to the activity you are launching.
     This is done using the optional <a href="https://developer.android.com/reference/android/os/Bundle.html">Bundle</a>
     that is included within the intent used to launch the activity.  The user can create a Bundle directly and use the
-    Intent.PutExtras() method or use the convince methods of the Intent class to add items to the Bundle easily.
+    <code>Intent.putExtras()</code> method or use the convince method <code>Intent.putExtra()</code> to easily add items
+    of any type to the Intent's Bundle one at a time.
     <p>
     As can be seen in the snippet below after creating an Intent that will launch the SnippetViewActivity the URL
-    and JSON URL of the requested playlist are added to the intents Bundle using the PutExtra method.  This differs
+    and JSON URL of the requested playlist are added to the intents Bundle using the putExtra method.  This differs
     from adding to the Bundle directly in that it is not necessary to call the corresponding method to the type being
-    added such as putString() or putInt() as is needed when using the Bundle methods.
+    added such as <code>putString()</code> or <code>putInt()</code> as is needed when using the Bundle methods.
 
     <script src="https://gist.github.com/swanyriver/453d21709895aa59406e9bd637b50051.js"></script>
 
     <p>
     In the snippet below we see how to then retrieve the data that was packed into the Bundle before starting the activity.
-    First the Bundle is retrieved from the Intent using the getExtras() method and then the data is extracted using the
+    First the Bundle is retrieved from the Intent using the <code>getExtras()</code> method and then the data is extracted using the
     key strings.  There is an inverse <code> get*() </code> method for every type of value that can be <code>put*() </code> in a Bundle.
 
     <script src="https://gist.github.com/swanyriver/e78bd5acc01f1be0d523fd5f42b65a6b.js"></script>
@@ -36,7 +38,7 @@
     <p>
     This example was simple because the object that the user wanted to view was not yet retrieved from the Internet
     and it was only necessary to pass the URL strings to the next activity.  In the next section we will cover how to pass
-    more complicated data between activity.
+    more complicated data between activities.
     </p>
 
 {% endblock %}

@@ -13,7 +13,7 @@ Passing primitive types between activities is trivial enough but what about pass
     <img style="margin-bottom: 10px; width: 100%" src="/img/sendObject.png">
 
     <p>
-    The naive approach is to add all fields of the object being passed to the next activity with a key for each one.
+    The naive approach is to add all fields of the object being passed to the next activity into the Intent Bundle, with a key for each one.
     This is the technique used in the code samples below.  The fragment class that managed the playlist snippets defined a method for retrieving a Bundle
     containing all of the fields of one snippet in separate key entries.  The edit activity then retrieves those values by the key
     strings and populates the EditText views.
@@ -24,7 +24,7 @@ Passing primitive types between activities is trivial enough but what about pass
 
         <p>
     The pitfalls of such an approach appear when development continues.  The fields of the Snippet class have now been
-    hardcoded in two different places outside of the class.  If the fields change or more are added the developers will need
+    hardcoded in two different places outside of the class.  If the fields of the class change or more are added the developers will need
     to carefully revisit each of these manual serializing and de-serializing functions.  This is even more of a problem if
     the same object is passed between multiple activities.
 
@@ -59,8 +59,8 @@ Passing primitive types between activities is trivial enough but what about pass
     An alternative to the serializable class is the Android <a href="https://developer.android.com/reference/android/os/Parcelable.html">Parcelable</a> Interface.
     There are <code>putParcelable()</code> and <code>getParcelable()</code> for the Intent and Bundle classes similar to Serializable objects but unlike
     the Serializable interface the developer of the Parcelable class must implement and maintain the abstract methods for serializing and de-serializing the object.
-    The reason for the extra effort is, as is usually the case, improvements in <a href="http://www.developerphil.com/parcelable-vs-serializable/">
-        speed and memory performance </a> because the Serializable interface depends on reflection to automatically serialize your objects.
+    The reason for the extra effort is, as is usually the case, is improvements in <a href="http://www.developerphil.com/parcelable-vs-serializable/">
+        speed and memory performance</a>.  The Parcelable interface is faster because the Serializable interface depends on reflection to automatically serialize your objects.
 
     <p>
     A good compromise might be to begin with using the Serializable interface and then switch to Parcelalbe when either
